@@ -166,3 +166,24 @@
   0%, 100% { box-shadow: var(--shadow-neon); }
   50% { box-shadow: var(--shadow-neon-magenta); }
 }
+/* Configurações de Impressão */
+@media print {
+  /* Força o navegador a imprimir cores e fundos exatamente como estão na tela */
+  body, page, div, section {
+    -webkit-print-color-adjust: exact !important;
+    print-color-adjust: exact !important;
+    color-adjust: exact !important;
+  }
+
+  /* Garante que o fundo da página fique escuro para destacar o texto claro */
+  body {
+    background-color: #0f172a !important; /* ou a cor do seu tema */
+    color: #ffffff !important;
+  }
+
+  /* Esconde qualquer barra de rolagem na impressão */
+  html, body {
+    height: auto !important;
+    overflow: visible !important;
+  }
+}
