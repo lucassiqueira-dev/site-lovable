@@ -78,7 +78,7 @@ function Index() {
     setTimeout(() => setStatus(""), 2200);
   };
 
-  const download = async () => {
+  const downloadImage = async () => {
     if (!cardRef.current) return;
     const url = await toPng(cardRef.current, { pixelRatio: 2, cacheBust: true });
     const a = document.createElement("a");
@@ -88,6 +88,10 @@ function Index() {
     flash("Imagem baixada!");
   };
 
+  const downloadPdf = () => {
+    window.print();
+  };
+
   const copyCode = async () => {
     await navigator.clipboard.writeText(JSON.stringify(character, null, 2));
     flash("Código do card copiado!");
@@ -95,7 +99,7 @@ function Index() {
 
   return (
     <main className="mx-auto min-h-screen max-w-6xl px-4 py-8 sm:px-6 sm:py-12">
-      <header className="mb-8 text-center">
+      <header className="mb-8 text-center print:hidden">
         <p className="font-mono text-xs uppercase tracking-[0.35em] text-accent">
           // character_builder.exe
         </p>
@@ -108,7 +112,7 @@ function Index() {
 
       <div className="grid gap-8 lg:grid-cols-[1.15fr_1fr]">
         {/* Formulário */}
-        <section className="neon-panel space-y-6 p-5 sm:p-6">
+        <section className="neon-panel space-y-6 p-5 sm:p-6 print:hidden">
           <div className="space-y-3">
             <h2 className="font-display text-sm uppercase tracking-[0.2em] text-primary">
               01 — Identidade
@@ -243,25 +247,28 @@ function Index() {
             </div>
           </div>
 
-          <div className="flex flex-wrap gap-2 border-t border-border pt-4">
+          <div className="flex flex-wrap gap-2 border-t border-border pt-4 print:hidden">
             <Button variant="secondary" onClick={() => setCharacter(randomCharacter())}>
               🎲 Ficha Aleatória
             </Button>
-            <Button variant="outline" onClick={download}>
+            <Button variant="outline" onClick={downloadImage}>
               ⬇ Baixar Imagem
+            </Button>
+            <Button variant="outline" onClick={downloadPdf}>
+              📄 Baixar PDF
             </Button>
             <Button variant="outline" onClick={copyCode}>
               ⧉ Copiar Código
             </Button>
           </div>
-          <p aria-live="polite" className="min-h-4 font-mono text-xs text-neon-lime">
+          <p aria-live="polite" className="min-h-4 font-mono text-xs text-neon-lime print:hidden">
             {status}
           </p>
         </section>
 
         {/* Preview */}
         <section className="lg:sticky lg:top-8 lg:self-start">
-          <div className="mb-4 flex justify-center gap-2">
+          <div className="mb-4 flex justify-center gap-2 print:hidden">
             {(["card", "sheet"] as const).map((m) => (
               <Button
                 key={m}
